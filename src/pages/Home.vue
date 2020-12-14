@@ -4,9 +4,26 @@
     <div class="album py-5 bg-light">
       <div class="container">
         <div class="row">
+
+          <div class="col-md-12 mb-4" v-if="link">
+            <div class="alert alert-info" role="alert">
+              Link generated: {{link}}
+            </div>
+          </div>
+
+          <div class="col-md-12 mb-4" v-if="error">
+            <div class="alert alert-danger" role="alert">
+              You should be logged in generated a link.
+            </div>
+          </div>
+
           <div class="col-md-12 mb-4 input-group">
             <input type="text" class="form-control" placeholder="Search" @keyup="search($event.target.value)" />
+            <div class="input-group-append" v-if="selected.length > 0">
+              <button class="btn btn-info" @click="generate()">Generate Link</button>
+            </div>
           </div>
+
           <div class="col-md-4" v-for="(product, i) in products" :key="i">
             <div class="card mb-4 shadow-sm" @click="select(product.id)" :class="{selected: isSelected(product.id)}">
               <img :src="product.img" height="200" />
@@ -39,6 +56,8 @@ export default {
     return {
       products: [],
       selected: [],
+      link: '',
+      error: false,
     }
   },
 
@@ -66,6 +85,18 @@ export default {
         return;
       }
       this.selected = this.selected.filter(s => s !== id);
+    },
+
+    async generate() {
+      try {
+        const {data} = await axios.post('links', {
+          products: this.selected
+        });
+
+        this.link = `${process.env.VUE_APP_CHECKOUT}/${data.data.code}`;
+      } catch(e) {
+        this.error = true;
+      }
     }
   }
 
