@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Nav :user="user" />
+    <Nav />
     <main role="main">
       <router-view />
     </main>
@@ -10,6 +10,7 @@
 <script>
 import Nav from "@/components/Nav.vue";
 import axios from "axios";
+import { User } from '@/classes/user';
 
 export default {
   name: "Layout",
@@ -27,7 +28,9 @@ export default {
   async mounted() {
     const { data } = await axios.get('user');
 
-    this.user = data.data;
+    this.user = new User(data.data);
+
+    this.$store.dispatch('setUser', this.user);
   }
 }
 </script>
