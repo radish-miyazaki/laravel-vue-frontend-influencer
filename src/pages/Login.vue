@@ -1,18 +1,41 @@
 <template>
-  <form class="form-signin">
+  <form class="form-signin" @submit.prevent="submit">
     <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
 
-    <input type="email" class="form-control" placeholder="Email" required/>
+    <input v-model="email" type="email" class="form-control" placeholder="Email" required/>
 
-    <input type="password" class="form-control" placeholder="Password" required/>
+    <input v-model="password" type="password" class="form-control" placeholder="Password" required/>
 
     <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
   </form>
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
-  name: "Login"
+  name: "Login",
+
+  data() {
+    return {
+      email: '',
+      password: ''
+    }
+  },
+
+  methods: {
+    async submit() {
+      await axios.post('login', {
+        'email': this.email,
+        'password': this.password,
+        'scope': 'influencer',
+      });
+
+      await this.$router.push('/');
+    }
+  }
+
+
 }
 </script>
 
