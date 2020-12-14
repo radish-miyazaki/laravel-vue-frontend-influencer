@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Nav />
+    <Nav :user="user" />
     <main role="main">
       <router-view />
     </main>
@@ -18,10 +18,16 @@ export default {
     Nav,
   },
 
+  data() {
+    return {
+      user: null
+    }
+  },
+
   async mounted() {
     const { data } = await axios.get('user');
 
-    console.log(data);
+    this.user = data.data;
   }
 }
 </script>
