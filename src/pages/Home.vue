@@ -4,6 +4,9 @@
     <div class="album py-5 bg-light">
       <div class="container">
         <div class="row">
+          <div class="col-md-12 mb-4 input-group">
+            <input type="text" class="form-control" placeholder="Search" @keyup="search($event.target.value)" />
+          </div>
           <div class="col-md-4" v-for="(product, i) in products" :key="i">
             <div class="card mb-4 shadow-sm">
               <img :src="product.img" height="200" />
@@ -39,9 +42,18 @@ export default {
   },
 
   async mounted() {
-    const { data } = await axios.get('products');
+    await this.load();
+  },
 
-    this.product = data.data;
+  methods: {
+    async load(text = '') {
+      const { data } = await axios.get(`products?s=${text}`);
+      this.product = data.data;
+    },
+    
+    async search(text) {
+      await this.load(text);
+    }
   }
 
 }
