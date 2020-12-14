@@ -4,6 +4,7 @@ import Home from '@/pages/Home.vue';
 import Login from '@/pages/Login.vue';
 import Register from '@/pages/Register.vue';
 import Rankings from '@/pages/Rankings.vue';
+import Stats from '@/pages/Stats.vue';
 
 const routes: Array<RouteRecordRaw> = [
   { path: '/login', component: Login },
@@ -13,6 +14,7 @@ const routes: Array<RouteRecordRaw> = [
     children: [
       { path: '', component: Home },
       { path: '/rankings', component: Rankings },
+      { path: '/stats', component: Stats },
     ]
   }
 ]

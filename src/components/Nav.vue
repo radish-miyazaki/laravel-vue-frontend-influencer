@@ -4,6 +4,9 @@
       Influencer
     </router-link>
     <nav class="my-2 my-md-0 mr-md-3" v-if="this.isAuthenticated()">
+      <router-link to="/stats" class="btn btn-outlined-secondary">
+        Stats
+      </router-link>
       <router-link to="/rankings" class="btn btn-outlined-secondary">
         Rankings
       </router-link>
